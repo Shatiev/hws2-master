@@ -4,6 +4,7 @@ import Error404 from './pages/Error404'
 import PreJunior from './pages/PreJunior'
 import Junior from './pages/Junior'
 import JuniorPlus from './pages/JuniorPlus'
+import HW13 from "../hw13/HW13";
 
 export const PATH = {
     PRE_JUNIOR: '/pre-junior',
@@ -21,7 +22,7 @@ function Pages() {
                 {/*<Route ...*/}
 
                 {/*роуты для /pre-junior, /junior, /junior-plus*/}
-                {/*<Route ...*/}
+                <Route path={PATH.JUNIOR_PLUS} element={<HW13/>}/>
                 {/*<Route ...*/}
                 {/*<Route ...*/}
 
