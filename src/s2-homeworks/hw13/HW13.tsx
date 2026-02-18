@@ -38,19 +38,17 @@ const HW13 = () => {
             .then((res) => {
                 setCode('Код 200!')
                 setImage(success200)
-                const serverText = res.data?.info || 'Success'
-                const expectedText = '...всё ок)'
-                // Если сервер вернул длинную фразу, подменяем её короткой
-                if (serverText.includes('код 200 - обычно означает что скорее всего всё ок)')) {
-                    setText(expectedText)
-                } else {
-                    setText(serverText)
-                }
-                setInfo('')
+                setInfo(res.data?.info || 'Success')
+                setText('')
 
             })
             .catch((e) => {
-                if (e.response) {
+                if (x === null) {
+                    setCode('Error')
+                    setImage(errorUnknown)
+                    setText('Network error')
+                    setInfo('Error')
+                } else if (e.response) {
                     const status = e.response.status
                     if (status === 400) {
                         setCode('Ошибка 400')
@@ -72,7 +70,7 @@ const HW13 = () => {
                     setText(e.message || 'Network error')
                     setInfo('Error')
                 }
-            }) .finally(() => {
+            }).finally(() => {
             setLoading(false)
         })
     }
