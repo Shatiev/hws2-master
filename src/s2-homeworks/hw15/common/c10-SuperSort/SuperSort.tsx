@@ -42,11 +42,13 @@ const SuperSort: React.FC<SuperSortPropsType> = (
         <span
             id={id + '-sort-' + value}
             onClick={onChangeCallback}
+            style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
         >
             <img
                 id={id + '-icon-' + sort}
                 src={icon}
                 alt="sort"
+                style={{ width: '16px', height: '16px' }}
             />
         </span>
     )

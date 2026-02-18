@@ -22,9 +22,8 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = (
         onChange(page, itemsCountForPage)
     }
 
-    const onChangeSelect = (event: any) => {
-        const newCount = event.target.value
-        onChange(1, Number(newCount))
+    const onChangeSelect = (value: any) => {
+        onChange(1, Number(value))
     }
 
     return (
@@ -51,11 +50,7 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = (
             <SuperSelect
                 id={id + '-pagination-select'}
                 value={itemsCountForPage}
-                options={[
-                    {id: 4, value: 4},
-                    {id: 7, value: 7},
-                    {id: 10, value: 10},
-                ]}
+                options={[4, 7, 10]}
                 onChange={onChangeSelect}
             />
 
