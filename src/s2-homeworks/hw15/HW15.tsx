@@ -47,7 +47,7 @@ const HW15 = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const [techs, setTechs] = useState<TechType[]>([])
 
-    const sendQuery = (params: any) => {
+    const sendQuery = (params: ParamsType) => {
         setLoading(true)
         getTechs(params)
             .then((res) => {
@@ -90,9 +90,19 @@ const HW15 = () => {
 
     useEffect(() => {
         const params = Object.fromEntries(searchParams)
-        sendQuery({page: params.page, count: params.count})
-        setPage(+params.page || 1)
-        setCount(+params.count || 4)
+        const currentSort = params.sort || ''
+        const currentPage = params.page ? +params.page : 1
+        const currentCount = params.count ? +params.count : 4
+
+        setSort(currentSort)
+        setPage(currentPage)
+        setCount(currentCount)
+
+        sendQuery({
+            sort: currentSort,
+            page: currentPage,
+            count: currentCount,
+        })
     }, [])
 
     const mappedTechs = techs.map(t => (
