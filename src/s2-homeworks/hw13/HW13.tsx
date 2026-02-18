@@ -38,7 +38,8 @@ const HW13 = () => {
             .then((res) => {
                 setCode('Код 200!')
                 setImage(success200)
-                setText(res.data?.info || 'Success')
+                const responseText = res.data?.message || res.data?.info || 'Success'
+                setText(responseText)
                 setInfo('')
 
             })
@@ -48,25 +49,25 @@ const HW13 = () => {
                     if (status === 400) {
                         setCode('Ошибка 400')
                         setImage(error400)
-                        setText(e.response.data?.errorText || 'Bad request')
+                        setText(e.response.data?.errorText || e.response.data?.message || 'Bad request')
                     } else if (status === 500) {
                         setCode('Ошибка 500')
                         setImage(error500)
-                        setText(e.response.data?.errorText || 'Server error')
+                        setText(e.response.data?.errorText || e.response.data?.message || 'Server error')
                     } else {
                         setCode(`Ошибка ${status}`)
                         setImage(errorUnknown)
-                        setText(e.response.data?.errorText || 'Unknown error')
+                        setText(e.response.data?.errorText || e.response.data?.message || 'Unknown error')
                     }
                     setInfo(e.response.data?.info || '')
                 } else {
                     setCode('Error')
                     setImage(errorUnknown)
-                    setText(e.message || 'Network error')
-                    setInfo('')
+                    setText('')
+                    setInfo(e.message)
                 }
             }) .finally(() => {
-            setLoading(false) // запрос завершён – разблокируем кнопки
+            setLoading(false)
         })
     }
 
