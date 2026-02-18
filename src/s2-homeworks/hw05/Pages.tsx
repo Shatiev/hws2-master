@@ -6,6 +6,7 @@ import Junior from './pages/Junior'
 import JuniorPlus from './pages/JuniorPlus'
 import HW13 from "../hw13/HW13";
 import HW14 from "../hw14/HW14";
+import HW15 from "../hw15/HW15";
 
 export const PATH = {
     PRE_JUNIOR: '/pre-junior',
@@ -23,7 +24,7 @@ function Pages() {
                 {/*<Route ...*/}
 
                 {/*роуты для /pre-junior, /junior, /junior-plus*/}
-                <Route path={PATH.JUNIOR_PLUS} element={<HW14/>}/>
+                <Route path={PATH.JUNIOR_PLUS} element={<HW15/>}/>
                 {/*<Route ...*/}
                 {/*<Route ...*/}
 
