@@ -42,8 +42,7 @@ const HW13 = () => {
                 const serverInfo = res.data?.info || 'Success'
                 setInfo(serverInfo)
 
-                setInfo(res.data?.info || 'Success')
-                if (serverInfo.includes('код 200 - обычно означает что скорее всего всё ок)')) {
+                if (x === true) {
                     setText('...всё ок)')
                 } else {
                     setText(serverInfo)
