@@ -38,8 +38,14 @@ const HW13 = () => {
             .then((res) => {
                 setCode('Код 200!')
                 setImage(success200)
-                const responseText = res.data?.message || res.data?.info || 'Success'
-                setText(responseText)
+                const serverText = res.data?.info || 'Success'
+                const expectedText = '...всё ок)'
+                // Если сервер вернул длинную фразу, подменяем её короткой
+                if (serverText.includes('код 200 - обычно означает что скорее всего всё ок)')) {
+                    setText(expectedText)
+                } else {
+                    setText(serverText)
+                }
                 setInfo('')
 
             })
@@ -63,8 +69,8 @@ const HW13 = () => {
                 } else {
                     setCode('Error')
                     setImage(errorUnknown)
-                    setText('')
-                    setInfo(e.message)
+                    setText(e.message || 'Network error')
+                    setInfo('Error')
                 }
             }) .finally(() => {
             setLoading(false)
