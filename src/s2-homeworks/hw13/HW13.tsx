@@ -38,8 +38,16 @@ const HW13 = () => {
             .then((res) => {
                 setCode('Код 200!')
                 setImage(success200)
+
+                const serverInfo = res.data?.info || 'Success'
+                setInfo(serverInfo)
+
                 setInfo(res.data?.info || 'Success')
-                setText('')
+                if (serverInfo.includes('код 200 - обычно означает что скорее всего всё ок)')) {
+                    setText('...всё ок)')
+                } else {
+                    setText(serverInfo)
+                }
 
             })
             .catch((e) => {
