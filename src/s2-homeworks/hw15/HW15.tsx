@@ -94,14 +94,17 @@ const HW15 = () => {
         const currentPage = params.page ? +params.page : 1
         const currentCount = params.count ? +params.count : 4
 
+        const validPage = !isNaN(currentPage) && currentPage > 0 ? currentPage : 1
+        const validCount = !isNaN(currentCount) && currentCount > 0 ? currentCount : 4
+
         setSort(currentSort)
-        setPage(currentPage)
-        setCount(currentCount)
+        setPage(validPage)
+        setCount(validCount)
 
         sendQuery({
             sort: currentSort,
-            page: currentPage,
-            count: currentCount,
+            page: validPage,
+            count: validCount,
         })
     }, [])
 

@@ -1,9 +1,10 @@
 import React from 'react'
+import downIcon from './icons/icon1.png'
+import upIcon from './icons/icon2.png'
+import noneIcon from './icons/icon3.png'
 
 // добавить в проект иконки и импортировать
-const downIcon = '[\\/]'
-const upIcon = '[/\\]'
-const noneIcon = '[--]'
+
 
 export type SuperSortPropsType = {
     id?: string
