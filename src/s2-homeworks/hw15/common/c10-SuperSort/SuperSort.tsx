@@ -1,7 +1,10 @@
 import React from 'react'
-import downIcon from '../c10-SuperSort/icons/down.png'
-import upIcon from '../c10-SuperSort/icons/up.png'
-import noneIcon from '../c10-SuperSort/icons/none.png'
+
+
+// добавить в проект иконки и импортировать
+const downIcon = '[\\/]'
+const upIcon = '[/\\]'
+const noneIcon = '[--]'
 
 export type SuperSortPropsType = {
     id?: string
@@ -10,19 +13,18 @@ export type SuperSortPropsType = {
     onChange: (newSort: string) => void
 }
 
-export const pureChange = (sort: string, down: string, up: string): string => {
-    if (sort === '') return up
-    if (sort === up) return down
-    if (sort === down) return ''
-    return up
+export const pureChange = (sort: string, down: string, up: string) => {
+    if (sort !== down && sort !== up) return down
+    if (sort === down) return up
+    if (sort === up) return ''   // пишет студент, sort: (click) => down (click) => up (click) => '' (click) => down ...
+    return up // исправить
 }
 
-const SuperSort: React.FC<SuperSortPropsType> = ({
-                                                     sort,
-                                                     value,
-                                                     onChange,
-                                                     id = 'hw15',
-                                                 }) => {
+const SuperSort: React.FC<SuperSortPropsType> = (
+    {
+        sort, value, onChange, id = 'hw15',
+    }
+) => {
     const up = '0' + value
     const down = '1' + value
 
@@ -40,13 +42,11 @@ const SuperSort: React.FC<SuperSortPropsType> = ({
         <span
             id={id + '-sort-' + value}
             onClick={onChangeCallback}
-            style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
         >
             <img
                 id={id + '-icon-' + sort}
                 src={icon}
-                alt="sort"
-                style={{ width: '16px', height: '16px' }}
+                alt="sort icon"
             />
         </span>
     )

@@ -1,19 +1,37 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import s2 from '../../s1-main/App.module.css'
 import s from './HW15.module.css'
 import axios from 'axios'
 import SuperPagination from './common/c9-SuperPagination/SuperPagination'
-import { useSearchParams } from 'react-router-dom'
+import {useSearchParams} from 'react-router-dom'
 import SuperSort from './common/c10-SuperSort/SuperSort'
 
-type TechType = { id: number; tech: string; developer: string }
-type ParamsType = { sort: string; page: number; count: number }
+/*
+* 1 - дописать SuperPagination
+* 2 - дописать SuperSort
+* 3 - проверить pureChange тестами
+* 3 - дописать sendQuery, onChangePagination, onChangeSort в HW15
+* 4 - сделать стили в соответствии с дизайном
+* 5 - добавить HW15 в HW5/pages/JuniorPlus
+* */
+
+type TechType = {
+    id: number
+    tech: string
+    developer: string
+}
+
+type ParamsType = {
+    sort: string
+    page: number
+    count: number
+}
 
 const getTechs = (params: ParamsType) => {
     return axios
-        .get<{ techs: TechType[]; totalCount: number }>(
+        .get<{ techs: TechType[], totalCount: number }>(
             'https://samurai.it-incubator.io/api/3.0/homework/test3',
-            { params }
+            {params}
         )
         .catch((e) => {
             alert(e.response?.data?.errorText || e.message)
@@ -24,23 +42,22 @@ const HW15 = () => {
     const [sort, setSort] = useState('')
     const [page, setPage] = useState(1)
     const [count, setCount] = useState(4)
-    const [isLoading, setLoading] = useState(false)
+    const [idLoading, setLoading] = useState(false)
     const [totalCount, setTotalCount] = useState(100)
     const [searchParams, setSearchParams] = useSearchParams()
     const [techs, setTechs] = useState<TechType[]>([])
 
-    const sendQuery = (params: ParamsType) => {
+    const sendQuery = (params: any) => {
         setLoading(true)
         getTechs(params)
             .then((res) => {
                 if (res) {
                     setTechs(res.data.techs)
                     setTotalCount(res.data.totalCount)
-                } else {
-                    setTechs([])
-                    setTotalCount(0)
                 }
-                console.log('Response:', res?.data);
+            })
+            .catch((e) => {
+                console.error(e)
             })
             .finally(() => {
                 setLoading(false)
@@ -50,7 +67,16 @@ const HW15 = () => {
     const onChangePagination = (newPage: number, newCount: number) => {
         setPage(newPage)
         setCount(newCount)
-        sendQuery({ sort, page: newPage, count: newCount })
+
+
+        const params = {
+            sort,
+            page: newPage,
+            count: newCount,
+        }
+        sendQuery(params)
+
+
         setSearchParams({
             sort,
             page: String(newPage),
@@ -60,8 +86,15 @@ const HW15 = () => {
 
     const onChangeSort = (newSort: string) => {
         setSort(newSort)
-        setPage(1)
-        sendQuery({ sort: newSort, page: 1, count })
+        setPage(1) // при сортировке сбрасываем на первую страницу
+
+        const params = {
+            sort: newSort,
+            page: 1,
+            count,
+        }
+        sendQuery(params)
+
         setSearchParams({
             sort: newSort,
             page: '1',
@@ -71,22 +104,9 @@ const HW15 = () => {
 
     useEffect(() => {
         const params = Object.fromEntries(searchParams)
-        const currentSort = params.sort || ''
-        const currentPage = params.page ? +params.page : 1
-        const currentCount = params.count ? +params.count : 4
-
-        const validPage = !isNaN(currentPage) && currentPage > 0 ? currentPage : 1
-        const validCount = !isNaN(currentCount) && currentCount > 0 ? currentCount : 4
-
-        setSort(currentSort)
-        setPage(validPage)
-        setCount(validCount)
-
-        sendQuery({
-            sort: currentSort,
-            page: validPage,
-            count: validCount,
-        })
+        sendQuery({page: params.page, count: params.count})
+        setPage(+params.page || 1)
+        setCount(+params.count || 4)
     }, [])
 
     const mappedTechs = techs.map(t => (
@@ -94,6 +114,7 @@ const HW15 = () => {
             <div id={'hw15-tech-' + t.id} className={s.tech}>
                 {t.tech}
             </div>
+
             <div id={'hw15-developer-' + t.id} className={s.developer}>
                 {t.developer}
             </div>
@@ -103,24 +124,29 @@ const HW15 = () => {
     return (
         <div id={'hw15'}>
             <div className={s2.hwTitle}>Homework #15</div>
+
             <div className={s2.hw}>
-                {isLoading && <div id={'hw15-loading'} className={s.loading}>Loading...</div>}
+                {idLoading && <div id={'hw15-loading'} className={s.loading}>Loading...</div>}
+
                 <SuperPagination
                     page={page}
                     itemsCountForPage={count}
                     totalCount={totalCount}
                     onChange={onChangePagination}
                 />
+
                 <div className={s.rowHeader}>
                     <div className={s.techHeader}>
                         tech
-                        <SuperSort sort={sort} value={'tech'} onChange={onChangeSort} />
+                        <SuperSort sort={sort} value={'tech'} onChange={onChangeSort}/>
                     </div>
+
                     <div className={s.developerHeader}>
                         developer
-                        <SuperSort sort={sort} value={'developer'} onChange={onChangeSort} />
+                        <SuperSort sort={sort} value={'developer'} onChange={onChangeSort}/>
                     </div>
                 </div>
+
                 {mappedTechs}
             </div>
         </div>
