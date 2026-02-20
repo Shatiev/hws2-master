@@ -25,7 +25,7 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = ({
     }
 
     const onChangeSelect = (value: number) => {
-        onChange(1, value) // сбрасываем на первую страницу
+        onChange(1, value)
     }
 
     return (
@@ -55,7 +55,7 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = ({
                     { id: 7, value: 7 },
                     { id: 10, value: 10 },
                 ]}
-                onChangeOption={onChangeSelect} // обязательно!
+                onChangeOption={onChangeSelect}
             />
 
             <span className={s.text2}>строк в таблице</span>

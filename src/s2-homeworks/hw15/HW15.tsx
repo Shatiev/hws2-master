@@ -40,6 +40,7 @@ const HW15 = () => {
                     setTechs([])
                     setTotalCount(0)
                 }
+                console.log('Response:', res?.data);
             })
             .finally(() => {
                 setLoading(false)
